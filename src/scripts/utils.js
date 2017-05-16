@@ -1,3 +1,14 @@
+//Create Texture
+function create_texture(fillColor, length, borderWidth, borderColor) {
+  var graphic = new PIXI.Graphics();
+  graphic.beginFill(fillColor, 1);
+  graphic.drawRect(0,0, parseInt(borderWidth), parseInt(borderWidth));
+  if (arguments.length === 4)
+    graphic.lineStyle(parseInt(borderWidth), borderColor);
+  return(renderer.generateTexture(graphic));
+}
+
+
 //The `randomInt` helper function
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
