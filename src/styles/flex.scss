@@ -6,8 +6,7 @@
     flex-direction: column;
     align-items: center;
     align-content: flex-end;
-    background-color: $color-teal;
-    
+
     .hero-card {
         width: 75%;
         background-color: white;
@@ -16,6 +15,11 @@
         margin-top: 1em;
         font-weight: 200;
         min-height: 265px;
+        transition: .4s transform cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+        &.move-up {
+            transform: translateY(-500px);
+        }
 
         h1 {
             font-size: 60px;

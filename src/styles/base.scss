@@ -13,12 +13,21 @@ body, input {
     background-image: linear-gradient(to bottom, #115566, #118899);*/
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #333;
+    background-color: $color-teal;
+}
+
+canvas {
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 input {
     padding: .5em;
     font-size: 14px;
     border: none;
+    background-color: white;
     border-bottom: 2px solid $color-blue;
     margin-right: 1em;
 

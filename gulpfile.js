@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
@@ -20,10 +21,11 @@ gulp.task('styles', function(){
 gulp.task('scripts', function() {
     return gulp.src('src/scripts/*.js')
       .pipe(concat('ftk_map-maker.js'))
-      //.pipe(gulp.dest(DEST))
-      .pipe(uglify())
-      .pipe(rename({ extname: '.min.js' }))
-      .pipe(gulp.dest(DEST));
+      .pipe(gulp.dest(DEST))
+      //.pipe(uglify())
+      //.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+      //.pipe(rename({ extname: '.min.js' }))
+     // .pipe(gulp.dest(DEST));
 });
 
 gulp.task('scripts:vendor', function(){
