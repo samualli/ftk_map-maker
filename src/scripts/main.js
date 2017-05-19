@@ -1,53 +1,61 @@
 var u = new SpriteUtilities(PIXI);
-var renderer;
-var stage = new Container();
+var renderer, state;
+var grid = new Container(),
+    stage = new Container();
+
+var width, height, tile_size, border;
 
 
+function main_init(form){
+    //Get form values
+    width = parseInt(form.width.value),
+    height = parseInt(form.height.value),
+    tile_size = parseInt(form.tile_size.value);
+    border = 2;
 
-function main_createMap(form){
-    const width = parseInt(form.width.value),
-          height = parseInt(form.height.value),
-          tile_size = parseInt(form.tile_size.value);
-          border = 2;
-
+    //Set stage
     renderer = autoDetectRenderer (width * tile_size, height * tile_size);
     renderer.backgroundColor = 0xFFFFFF;
 
-    document.querySelector(".hero-card").style.display = "none";
-    document.body.appendChild(renderer.view);
-
-    // var graphic = u.rectangle(tile_size, tile_size, 0xFFFFFF, 0xCAA555, border);
-    // var texture = renderer.generateTexture(graphic);
-    // var grid = new Container();
-    // var sprite = new Sprite(texture);
-    // sprite.interactive = true;
-    // sprite.buttonMode = true;
-    // sprite.on('pointerdown', onClick);
+    //Move hero card
+    var el = document.querySelector(".hero-card");
+    el.classList.add("move-up");
     
-    var grid = new Container();
-    var graphic = new PIXI.Graphics();
-    graphic.lineStyle(2, 0xCAA555);
-    graphic.beginFill(0xFFFFFF, 1);
-    graphic.drawRect(0,0, 55, 55);
-    var texture = renderer.generateTexture(graphic);
-    var sprite = new Sprite(texture);
-    sprite.interactive = true;
-    sprite.buttonMode = true;
-    sprite.on('pointerdown', onClick);
-    grid.addChild(sprite);
-    stage.addChild(grid);
-    console.log(sprite);
+    //Create map
+    create_map();
 
-    renderer.render(stage);
+    setTimeout(function(){ 
+        document.getElementById("ui-container").classList.add('u-hidden'); 
+        document.body.appendChild(renderer.view);
+    }, 500);
     
-
-
 }
 
+function create_map(){
+    createTextureMap();
 
+    for (var i = 0; i < width; i++) {
+        for (var k = 0; k < height; k++) {
+        var sprite = u.sprite(textureMap, tile_size * i, tile_size * k);
+            sprite.interactive = true;
+            sprite.buttonMode = true;
+            sprite.on('pointerdown', onClick);
+            grid.addChild(sprite);
+        }
+    }
+    
+    grid.addChild(sprite);
+    stage.addChild(grid);
+
+    renderer.render(stage);
+}
 
 //CLick functions
 
 function onClick() {
-    console.log("clicked me");
+
+    this.setTexture(textureMap[1]);
+    renderer.render(stage);
 }
+
+//Need to find a way to tag a texture

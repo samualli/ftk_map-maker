@@ -10,22 +10,21 @@
     <link rel="stylesheet" href="ftk_map-maker.css">
 </head>
 <body>
-   <div class="flex-container">
+   <div class="flex-container" id="ui-container">
         <div class="hero-card depth-1">
             <h1>Map Editor</h1>
             <form id="form_init">
                 <div class="flex-row">
-                    <span>Width: <input type="text" name="width" value="32"></span> 
+                    <span>Width: <input type="text" name="width" value="18"></span> 
                     <span>Height: <input type="text" name="height" value="18"></span>
                     <span>TileSize: <input type="text" name="tile_size" value="32"></span>
                 </div>
                 <div class="flex-row">
-                    <button type="submit" value"submit" form="form_init" onclick="main_createMap(this.form); return false;">Create</button>
+                    <button type="submit" value"submit" form="form_init" onclick="main_init(this.form); return false;">Create</button>
                 </div>
             </form>
         </div>
     </div>
-        <div id="canvas"></div>
 </body>
 
 <script src="ftk_map-maker.js"></script>
