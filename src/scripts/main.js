@@ -6,6 +6,7 @@ var grid = new Container(),
 
 //Options
 var grid_lines = true;
+var pointer_down = false;
 
 var width, height, tile_size, border, palette_selected;
 
@@ -54,15 +55,18 @@ function create_map(){
 
     for (var i = 0; i < width; i++) {
         for (var k = 0; k < height; k++) {
-        var sprite = u.sprite(textureMap, tile_size * i, tile_size * k);
-            sprite.interactive = true;
-            sprite.buttonMode = true;
-            sprite.on('pointerdown', paint);
+        var sprite = u.sprite(textureMap, tile_size * k, tile_size * i);
+            //sprite.interactive = true;
+            //sprite.buttonMode = true;
+            //sprite.on('pointerdown', paint);
             grid.addChild(sprite);
         }
     }
-    //grid.interactive = true;
-    //grid.buttonMode = true;
+    grid.interactive = true;
+    grid.buttonMode = true;
+    grid.on('pointerdown', pointerDown);
+    grid.on('pointermove', pointerMove);
+    grid.on('pointerup', pointerRelease)
     stage.addChild(grid);
 }
 
@@ -82,13 +86,45 @@ function setPalette() {
     
     renderer.render(stage);
 }
+/* Pre: PIXI.point
+   Post: Returns Sprite the cell in the grid */
+function getCellFromPoint(point) {
+   var x = Math.floor(point.x / tile_size);
+   var y = Math.floor(point.y / tile_size);
+   var index = x + y * width;
+   
+   return grid.getChildAt(index);
+}
 
-function paint() {
+function pointerDown(e) {
     if(palette_selected == undefined)
         return;
 
-    this.gotoAndStop(palette_selected);
+    pointer_down = true;
+    //Translates click positioning to coordinate
+    var cell = getCellFromPoint(e.data.getLocalPosition(grid));
+    if (cell.currentFrame == palette_selected)
+        return;
+
+    cell.gotoAndStop(palette_selected);
     renderer.render(stage);
+}
+
+function pointerMove(e) {
+    if(!pointer_down)
+        return;
+
+    var cell = getCellFromPoint(e.data.getLocalPosition(grid));
+    if (cell.currentFrame == palette_selected)
+        return;
+
+    cell.gotoAndStop(palette_selected)
+    renderer.render(stage);
+}
+
+function pointerRelease() {
+    pointer_down = false;
+
 }
 
 function export_grid() {
