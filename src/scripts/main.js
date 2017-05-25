@@ -10,6 +10,14 @@ var pointer_down = false;
 
 var width, height, tile_size, border, palette_selected;
 
+//Local Variables
+var main = {};
+    main.mapsJSON = [];
+
+
+/* Function main_init */
+/* If Paramter is HTML element then create blank map
+   Else Create Blank map and Load Tiles */
 
 function main_init(form){
     //Get form values
@@ -29,6 +37,9 @@ function main_init(form){
     
     create_map();
     create_palette();
+    //If a map is loaded
+    if(main.mapsJSON.length > 0)
+        load_map(main.mapsJSON[0].map);
 
     setTimeout(function(){ 
         document.getElementById("ui-container").classList.add('u-hidden'); 
@@ -49,16 +60,14 @@ function create_palette(){
     palette.x = width * tile_size + tile_size;
     stage.addChild(palette);
 }
-
+/* Function Create Map
+   Create empty map */
 function create_map(){
     createTextureMap();
 
     for (var i = 0; i < width; i++) {
         for (var k = 0; k < height; k++) {
         var sprite = u.sprite(textureMap, tile_size * k, tile_size * i);
-            //sprite.interactive = true;
-            //sprite.buttonMode = true;
-            //sprite.on('pointerdown', paint);
             grid.addChild(sprite);
         }
     }
@@ -68,6 +77,17 @@ function create_map(){
     grid.on('pointermove', pointerMove);
     grid.on('pointerup', pointerRelease)
     stage.addChild(grid);
+}
+
+/* Pre: array is an Map Array with values representing which frame the tile will be
+*/
+function load_map(array) {
+
+    for (var i = 0; i < grid.children.length; i++) {
+        grid.getChildAt(i).gotoAndStop(array[i]);
+    }
+
+    renderer.render(stage);
 }
 
 function setPalette() {
@@ -126,19 +146,23 @@ function pointerRelease() {
     pointer_down = false;
 
 }
-
+/* Post: index[0] = width; index[1] = height; */
 function export_grid() {
     var array = [];
-    var string = "["
-    for (var i = 0; i < grid.children.length; i++) {
-        //array.push(grid.getChildAt(i).currentFrame);
-        string += grid.getChildAt(i).currentFrame;
-        if(i < grid.children.length - 1)
-            string += ','
-    }
 
-    string += "]";
-    return(string);
+    for (var i = 0; i < grid.children.length; i++) {
+        array.push(grid.getChildAt(i).currentFrame);
+    }
+    var thisMap = { 
+        "width":width, 
+        "height":height, 
+        "tile_size":tile_size, 
+        "map":array
+    };
+
+    return(JSON.stringify(thisMap));
 }
 
-//Need to find a way to tag a texture
+//Need to find to either convert a string back to an array or
+//externally load an array from a saved JS file.
+//How do we save an array?  Local Storage // JSON // Export
