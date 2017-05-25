@@ -19,6 +19,5 @@ function toolbar_load() {
     document.getElementById("input_width").value = mapObj.width;
     document.getElementById("input_height").value = mapObj.height;
     document.getElementById("input_text_size").value = mapObj.tile_size;
-
-    main.mapsJSON.push(mapObj);
+    document.getElementById("output_form").classList.remove("u-hidden");
 }
