@@ -10,19 +10,31 @@
     <link rel="stylesheet" href="ftk_map-maker.css">
 </head>
 <body>
+    <header>
+        <div class="toolbar depth-2 card ">
+            <div class="flex-row">
+                <button class="small blue" type="button" onclick="toolbar_save(); return false;">Save</button>
+                <button class="small" type="button" onclick="toolbar_load(); return false;">Load</button>
+            </div>
+        </div>
+    </header>
    <div class="flex-container" id="ui-container">
         <div class="hero-card depth-1">
             <h1>Map Editor</h1>
             <form id="form_init">
                 <div class="flex-row">
-                    <span>Width: <input type="text" name="width" value="18"></span> 
-                    <span>Height: <input type="text" name="height" value="18"></span>
-                    <span>TileSize: <input type="text" name="tile_size" value="32"></span>
+                    <span>Width: <input id="input_width" type="text" name="width" value="18"></span> 
+                    <span>Height: <input id="input_height" type="text" name="height" value="18"></span>
+                    <span>TileSize: <input id="input_text_size" type="text" name="tile_size" value="32"></span>
                 </div>
                 <div class="flex-row">
-                    <button type="submit" value"submit" form="form_init" onclick="main_init(this.form); return false;">Create</button>
+                    <button class="sand" type="submit" value"submit" form="form_init" onclick="main_init(this.form); return false;">Create</button>
                 </div>
+                
             </form>
+            <div class="flex-container-footer">
+                    <h5 id="output_form" class="u-hidden">Map loaded.</h5>
+            </div>
         </div>
     </div>
 </body>
